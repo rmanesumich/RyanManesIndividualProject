@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(MainActivity.this, "Login Successful", LENGTH_SHORT).show();
-                                openReport();
+                                openMostImportant();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(MainActivity.this, "Login Failed", LENGTH_SHORT).show();
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
         }
     }
-    public void openReport() {
-        Intent intent = new Intent(this, Report.class);
+    public void openMostImportant() {
+        Intent intent = new Intent(this, MostImportant.class);
         startActivity(intent);
     }
 }

@@ -64,6 +64,9 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
         } else if (item.getItemId() == R.id.itemSearch){
             Intent SettingsIntent = new Intent(this, Search.class);
             startActivity(SettingsIntent);
+        } else if (item.getItemId() == R.id.itemMostImportant){
+            Intent MostImportantIntent = new Intent(this, MostImportant.class);
+            startActivity(MostImportantIntent);
         } else if (item.getItemId() == R.id.itemLogout){
             Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
             mAuth.signOut();
@@ -81,81 +84,88 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
 
         if (v == buttonSearch) {
             String findZipCode = editTextZipSearch.getText().toString();
-            Toast.makeText(this, findZipCode, Toast.LENGTH_SHORT).show();
-            myRef.orderByChild("zip").equalTo(findZipCode).limitToLast(1).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Bird findBird = dataSnapshot.getValue(Bird.class);
-                    String findBirdName = findBird.birdName;
-                    String findBirdUserEmail = findBird.email;
-                    Integer findBirdImportance = findBird.importance;
-                    textViewResultsBird.setText(findBirdName);
-                    textViewResultsUserEmail.setText(findBirdUserEmail);
-                    textViewResultsImportance.setText(String.valueOf(findBirdImportance));
-                }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            if (findZipCode.matches("")) {
+                Toast.makeText(this, "Zip Code is Empty", Toast.LENGTH_SHORT).show();
+            } else {
+                myRef.orderByChild("zip").equalTo(findZipCode).limitToLast(1).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Bird findBird = dataSnapshot.getValue(Bird.class);
+                        String findBirdName = findBird.birdName;
+                        String findBirdUserEmail = findBird.email;
+                        Integer findBirdImportance = findBird.importance;
+                        textViewResultsBird.setText(findBirdName);
+                        textViewResultsUserEmail.setText(findBirdUserEmail);
+                        textViewResultsImportance.setText(String.valueOf(findBirdImportance));
+                    }
 
-                }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    }
 
-                }
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    }
 
-                }
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
 
-                }
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
         } else if (v == buttonAddImportance) {
             final String findZipCode = editTextZipSearch.getText().toString();
-            myRef.orderByChild("zip").equalTo(findZipCode).limitToLast(1).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Bird findBird = dataSnapshot.getValue(Bird.class);
-                    String editKey =dataSnapshot.getKey();
 
-                    String findBirdName = findBird.birdName;
-                    String findBirdUserEmail = findBird.email;
-                    Integer findBirdImportance = findBird.importance;
-                    Integer newImportance = findBirdImportance + 1;
+            if (findZipCode.matches("")) {
+                Toast.makeText(this, "Zip Code is Empty", Toast.LENGTH_SHORT).show();
+            } else  {
+                myRef.orderByChild("zip").equalTo(findZipCode).limitToLast(1).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Bird findBird = dataSnapshot.getValue(Bird.class);
+                        String editKey = dataSnapshot.getKey();
 
-                    Bird editBird = new Bird(findBirdUserEmail,findBirdName,findZipCode,newImportance);
-                    myRef.child(editKey).setValue(editBird);
+                        String findBirdName = findBird.birdName;
+                        String findBirdUserEmail = findBird.email;
+                        Integer findBirdImportance = findBird.importance;
+                        Integer newImportance = findBirdImportance + 1;
 
-                    textViewResultsImportance.setText(String.valueOf(newImportance));
+                        Bird editBird = new Bird(findBirdUserEmail, findBirdName, findZipCode, newImportance);
+                        myRef.child(editKey).setValue(editBird);
 
-                    Toast.makeText(Search.this, "Added 1 to Importance", Toast.LENGTH_SHORT).show();
-                }
+                        textViewResultsImportance.setText(String.valueOf(newImportance));
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    }
 
-                }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    }
 
-                }
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    }
 
-                }
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
 
-                }
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
+            }
         }
     }
 }

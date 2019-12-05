@@ -55,6 +55,9 @@ public class Report extends AppCompatActivity implements View.OnClickListener {
         } else if (item.getItemId() == R.id.itemSearch){
             Intent SettingsIntent = new Intent(this, Search.class);
             startActivity(SettingsIntent);
+        } else if (item.getItemId() == R.id.itemMostImportant){
+            Intent MostImportantIntent = new Intent(this, MostImportant.class);
+            startActivity(MostImportantIntent);
         } else if (item.getItemId() == R.id.itemLogout){
             Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
             mAuth.signOut();
