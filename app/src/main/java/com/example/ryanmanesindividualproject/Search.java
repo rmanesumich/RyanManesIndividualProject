@@ -116,7 +116,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             });
         } else if (v == buttonAddImportance) {
             final String findZipCode = editTextZipSearch.getText().toString();
-            myRef.orderByChild("zip").equalTo(findZipCode).addChildEventListener(new ChildEventListener() {
+            myRef.orderByChild("zip").equalTo(findZipCode).limitToLast(1).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Bird findBird = dataSnapshot.getValue(Bird.class);
