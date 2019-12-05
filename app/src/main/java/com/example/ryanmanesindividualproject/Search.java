@@ -129,6 +129,9 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
 
                     Bird editBird = new Bird(findBirdUserEmail,findBirdName,findZipCode,newImportance);
                     myRef.child(editKey).setValue(editBird);
+
+                    textViewResultsImportance.setText(String.valueOf(newImportance));
+
                     Toast.makeText(Search.this, "Added 1 to Importance", Toast.LENGTH_SHORT).show();
                 }
 
